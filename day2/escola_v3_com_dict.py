@@ -27,9 +27,9 @@ for sala, alunos in salas.items():
                 alunos_atividade.append(aluno)
         aulas_por_sala[f"{sala} {aula}"] = alunos_atividade
         
-
 for atividade_sala, alunos in aulas_por_sala.items():
     print(f"{atividade_sala}:")
     for aluno in alunos:
         print(f"- {aluno};")
     print("-" * 32)
+
