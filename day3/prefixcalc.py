@@ -1,4 +1,4 @@
-"""Calculadora infix.
+"""Calculadora prefix.
 
 Funcionamento:
 
