@@ -1,0 +1,3 @@
+Ricardo, ricardo@email.com
+Maria, maria@gmail.com
+Jorge, jorge@gmail.com
