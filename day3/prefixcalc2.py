@@ -1,4 +1,4 @@
-"""Calculadora prefix.
+"""Calculadora Prefix.
 
 Funcionamento:
 
@@ -11,23 +11,27 @@ mul -> *
 div -> /
 
 Uso:
-$ infixcalc.py sum 5 2
+$ prefixcalc.py sum 5 2
 7
 
-$ infixcalc.py mul 10 5
+$ prefixcalc.py mul 10 5
 50
 
-$ infixcalc.py
+$ prefixcalc.py
 operação: sum
 n1: 5
 n2: 4
 9
+
+salvara as operações
 """
-__version__ = "0.2.0"
+__version__ = "0.1.0"
 
 import sys
-arguments = sys.argv[1:]
+import os
+from datetime import datetime
 
+arguments = sys.argv[1:]
 
 if not arguments:
     operation = input("operação:")
@@ -57,9 +61,8 @@ for num in nums:
     else:
         num = int(num)
     validated_nums.append(num)
-    
-n1, n2 = validated_nums
 
+n1, n2 = validated_nums
 
 if operation == "sum":
     result = n1 + n2
@@ -69,5 +72,14 @@ elif operation == "mul":
     result = n1 * n2
 elif operation == "div":
     result = n1 / n2
+
+path = os.curdir
+filepath = os.path.join(path, "calc.log")
+
+timestamp = datetime.now().isoformat()
+user= os.getenv("USER", "anonymous")
+
+with open(filepath, "a") as file_:
+    file_.write(f"{timestamp} - {user} - {operation}, {n1}, {n2} = {result}\n")
 
 print(f"O resultado é {result}")
