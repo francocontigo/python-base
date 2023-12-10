@@ -41,7 +41,12 @@ if arguments[0] == "read":
     
 if arguments[0] == "new":
     # criacao nota
-    titulo = arguments[1] # TODO: Tratar exception
+    try:
+        titulo = arguments[1]
+    except IndexError as e:
+        print(f"[ERROR] {str(e)}")
+        print("You need to pass more arguments.")
+        
     text = [
         f"{titulo}",
         input("tag:").strip(),
@@ -50,5 +55,4 @@ if arguments[0] == "new":
     # \t - tsv
     with open(filepath, "a") as file_:
         file_.write("\t".join(text) + "\n")
-
 
