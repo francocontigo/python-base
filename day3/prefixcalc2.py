@@ -43,69 +43,74 @@ fmt = logging.Formatter(
 ch.setFormatter(fmt)
 log.addHandler(ch)
 
-arguments = sys.argv[1:]
 
-if not arguments:
-    operation = input("operação:")
-    n1 = input("n1:")
-    n2 = input("n2:")
-    arguments = [operation, n1, n2]
-elif len(arguments) != 3:
-    print("Número de argumentos inválidos")
-    print("ex: `sum 5 5`")
-    sys.exit(1)
 
-operation, *nums = arguments
-
-valid_operations = ("sum", "sub", "mul", 'div')
-if operation not in valid_operations:
-    print("Operação inválida")
-    print(valid_operations)
-    sys.exit(1)
-
-validated_nums = []
-for num in nums:
-    if not num.replace(".", "").isdigit():
-        print(f"Numero inválido {num}")
-        sys.exit(1)
-    if "." in num:
-        num = float(num)
-    else:
-        num = int(num)
-    validated_nums.append(num)
-
-try:
-    n1, n2 = validated_nums
-except ValueError as e:
-    print(str(e))
-    sys.exit(1)
+while True:
     
-# TODO: Dicionário de funções
-if operation == "sum":
-    result = n1 + n2
-elif operation == "sub":
-    result = n1 - n2
-elif operation == "mul":
-    result = n1 * n2
-elif operation == "div":
-    result = n1 / n2
+    arguments = sys.argv[1:]
+    
+    # Validação
+    if not arguments:
+        operation = input("operação:")
+        n1 = input("n1:")
+        n2 = input("n2:")
+        arguments = [operation, n1, n2]
+    elif len(arguments) != 3:
+        print("Número de argumentos inválidos")
+        print("ex: `sum 5 5`")
+        sys.exit(1)
 
-path = os.curdir
-filepath = os.path.join(path, "calc.log")
+    operation, *nums = arguments
 
-timestamp = datetime.now().isoformat()
-user= os.getenv("USER", "anonymous")
+    valid_operations = ("sum", "sub", "mul", 'div')
+    if operation not in valid_operations:
+        print("Operação inválida")
+        print(valid_operations)
+        sys.exit(1)
 
-print(f"O resultado é {result}")
+    validated_nums = []
+    for num in nums:
+        if not num.replace(".", "").isdigit():
+            print(f"Numero inválido {num}")
+            sys.exit(1)
+        if "." in num:
+            num = float(num)
+        else:
+            num = int(num)
+        validated_nums.append(num)
 
-try:
-    with open(filepath, "a") as file_:
-        file_.write(f"{timestamp} - {user} - {operation}, {n1}, {n2} = {result}\n")
-except PermissionError as e:
-    log.error(
-        "%s",
-        str(e)
-    )
-    sys.exit(1)
+    try:
+        n1, n2 = validated_nums
+    except ValueError as e:
+        print(str(e))
+        sys.exit(1)
+        
+    # TODO: Dicionário de funções
+    if operation == "sum":
+        result = n1 + n2
+    elif operation == "sub":
+        result = n1 - n2
+    elif operation == "mul":
+        result = n1 * n2
+    elif operation == "div":
+        result = n1 / n2
 
-print(f"O resultado é {result}")
+    path = os.curdir
+    filepath = os.path.join(path, "calc.log")
+
+    timestamp = datetime.now().isoformat()
+    user= os.getenv("USER", "anonymous")
+
+    print(f"O resultado é {result}")
+
+    try:
+        with open(filepath, "a") as file_:
+            file_.write(f"{timestamp} - {user} - {operation}, {n1}, {n2} = {result}\n")
+    except PermissionError as e:
+        log.error(
+            "%s",
+            str(e)
+        )
+        sys.exit(1)
+
+    print(f"O resultado é {result}")

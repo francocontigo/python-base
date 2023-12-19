@@ -29,30 +29,38 @@ if not arguments:
 if arguments[0] not in cmds:
     print("Invalid command {argument[0]}")
 
-if arguments[0] == "read":
-    # leitura das notas
-    for line in open(filepath):
-        titulo, tag, text = line.split("\t")
-        if tag.lower() == arguments[1].lower():
-            print(f"title: {titulo}")
-            print(f"text: {text}")
-            print("-" * 30)
-            print()
+while True:
     
-if arguments[0] == "new":
-    # criacao nota
-    try:
-        titulo = arguments[1]
-    except IndexError as e:
-        print(f"[ERROR] {str(e)}")
-        print("You need to pass more arguments.")
+    if arguments[0] == "read":
+        try:
+            arg_tag = arguments[1].lower()
+        except IndexError:
+            arg_tag = input("Qual a tag?"). strip().lower()
+            
+        for line in open(filepath):
+            titulo, tag, text = line.split("\t")
+            if tag.lower() == arg_tag:
+                print(f"title: {titulo}")
+                print(f"text: {text}")
+                print("-" * 30)
+                print()
         
-    text = [
-        f"{titulo}",
-        input("tag:").strip(),
-        input("text:\n").strip(),
-    ]
-    # \t - tsv
-    with open(filepath, "a") as file_:
-        file_.write("\t".join(text) + "\n")
+    if arguments[0] == "new":
+        try:
+            titulo = arguments[1]
+        except IndexError as e:
+            titulo = input("Qual é o titulo?"). strip().title()
+            
+        text = [
+            f"{titulo}",
+            input("tag:").strip(),
+            input("text:\n").strip(),
+        ]
+        # \t - tsv
+        with open(filepath, "a") as file_:
+            file_.write("\t".join(text) + "\n")
+    
+    cont = input("Quer continuar {arguments[0]} notas? [N/y]").strip().lower()
+    if cont != "y":
+        break
 
