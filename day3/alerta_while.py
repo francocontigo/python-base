@@ -2,13 +2,17 @@ import logging
 
 log = logging.Logger("alerta")
 
+# TODO: Usar funções para ler input
+
 info = {
     "temperatura": None,
     "umidade": None
 }
 
 while True:
-    if all(info.values()):
+    info_size = len(info.values())
+    filled_size = len([value for value in info.values() if value is not None])
+    if info_size == filled_size:
         break
     
     for key in info.keys():
