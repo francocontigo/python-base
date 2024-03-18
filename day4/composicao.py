@@ -1,18 +1,23 @@
-names = ["Bruno", 
-         "João", 
-         "Bernardo", 
-         "Barbara", 
-         "Brian",
+names = [
+    "Bruno",
+    "João",
+    "Bernardo",
+    "Barbara",
+    "Brian",
 ]
 
-# for name in names:
-#     if name.lower().startswith("b"):
-#         print(name)
+# estilo funcional
+print(*list(filter(lambda text: text[0].lower() == "b", names)), sep="\n")
 
-# TODO: Usar lambdas
+print()
 
+
+# estilo procedural
 def starts_with_b(text):
-    return text[0].lower() == "b"
-    #return text.lower().startswith("b")
+    return text[0].lower
 
-print(*list(filter(starts_with_b, names)))
+
+filtro = filter(starts_with_b, names)
+filtro = list(filtro)
+for name in filtro:
+    print(name)

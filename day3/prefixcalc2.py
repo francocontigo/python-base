@@ -25,6 +25,7 @@ n2: 4
 
 salvara as operações
 """
+
 __version__ = "0.1.0"
 
 import sys
@@ -32,23 +33,31 @@ import os
 from datetime import datetime
 import logging
 
-log_level = os.getenv("LOG_LEVEL", "WARNING").upper()    
-log = logging.Logger(__name__, log_level) 
+log_level = os.getenv("LOG_LEVEL", "WARNING").upper()
+log = logging.Logger(__name__, log_level)
 ch = logging.StreamHandler()
 ch.setLevel(log_level)
 fmt = logging.Formatter(
-    '%(asctime)s  %(name)s  %(levelname)s '
-    'l:%(lineno)d f:%(filename)s: %(message)s'
+    "%(asctime)s  %(name)s  %(levelname)s " "l:%(lineno)d f:%(filename)s: %(message)s"
 )
 ch.setFormatter(fmt)
 log.addHandler(ch)
 
+arguments = sys.argv[1:]
 
+valid_operations = {
+    "sum": lambda a, b: a + b,
+    "sub": lambda a, b: a - b,
+    "mul": lambda a, b: a * b,
+    "div": lambda a, b: a / b,
+}
+
+path = os.curdir
+filepath = os.path.join(path, "calc.log")
+timestamp = datetime.now().isoformat()
+user = os.getenv("USER", "anonymous")
 
 while True:
-    
-    arguments = sys.argv[1:]
-    
     # Validação
     if not arguments:
         operation = input("operação:")
@@ -62,7 +71,6 @@ while True:
 
     operation, *nums = arguments
 
-    valid_operations = ("sum", "sub", "mul", 'div')
     if operation not in valid_operations:
         print("Operação inválida")
         print(valid_operations)
@@ -84,33 +92,17 @@ while True:
     except ValueError as e:
         print(str(e))
         sys.exit(1)
-        
-    # TODO: Dicionário de funções
-    if operation == "sum":
-        result = n1 + n2
-    elif operation == "sub":
-        result = n1 - n2
-    elif operation == "mul":
-        result = n1 * n2
-    elif operation == "div":
-        result = n1 / n2
 
-    path = os.curdir
-    filepath = os.path.join(path, "calc.log")
-
-    timestamp = datetime.now().isoformat()
-    user= os.getenv("USER", "anonymous")
+    result = valid_operations[operation](n1, n2)
 
     print(f"O resultado é {result}")
 
     try:
-        with open(filepath, "a") as file_:
-            file_.write(f"{timestamp} - {user} - {operation}, {n1}, {n2} = {result}\n")
+        with open(filepath, "a") as log:
+            log.write(f"{timestamp} - {user} - {operation}, {n1}, {n2} = {result}\n")
     except PermissionError as e:
-        log.error(
-            "%s",
-            str(e)
-        )
+        log.error("%s", str(e))
         sys.exit(1)
 
-    print(f"O resultado é {result}")
+    if input("Pressione enter para continuar ou qualquer tecla para sair"):
+        break

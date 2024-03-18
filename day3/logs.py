@@ -4,8 +4,7 @@ from logging import handlers
 
 log_level = os.getenv("LOG_LEVEL", "WARNING").upper()
 
-# TODO: usar função
-# TODO: usar lib(loguru)
+# TODO: Modulo de utilidades
 # normalmente o nome do script é usado, para setar o nível do logging é boa pratica usar a constante
 log = logging.Logger(__name__, log_level) 
 #level

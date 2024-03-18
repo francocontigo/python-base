@@ -19,7 +19,6 @@ for line in open(filepath):
     name, email = line.split()
     clientes.append(line.split(","))
     
-    # TODO Substituir por envio de email
     print(f"Enviando email para {email}")
     print()
     print(open(templatepath).read() % {"nome": name, "produto": "caneta", "texto": "Boa qualidadeta!",
