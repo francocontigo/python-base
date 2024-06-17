@@ -11,6 +11,11 @@ class InstrumentKind(str, Enum):
     drums = "drums"
 
 
+class Distortion(str, Enum):
+    wave = "wave"
+    whisper = "whisper"
+
+
 class ABCInstrument(ABC): # comportamento
 
     @abstractmethod
@@ -44,10 +49,12 @@ class Guitar(Instrument):
 class ElectricGuitar(Guitar):
     sound: str = "Wah wah wah"
 
-    def play(self, distortion="wave"):
+    def play(self, distortion=Distortion.wave):
         return_from_base_class = super().play() # mro, olha da esquerda para direita as importações
         if distortion == "wave":
             return "~~~~".join(return_from_base_class.split())
+        if distortion == "whisper":
+            return "...".join(return_from_base_class.split())
         return return_from_base_class
 
 

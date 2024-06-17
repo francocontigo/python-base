@@ -1,4 +1,4 @@
-from instruments import Instrument, Guitar, Flute, ElectricGuitar
+from instruments import Instrument, Guitar, Flute, ElectricGuitar, Distortion
 
 # x = Instrument()
 
@@ -12,4 +12,4 @@ print(yamaha.play())
 print(yamaha.colors)
 
 lespaul = ElectricGuitar("lespaul m1")
-print(lespaul.play())
+print(lespaul.play(distortion=Distortion.whisper))
